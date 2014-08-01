@@ -1,0 +1,1168 @@
+{"apiVersion": "1.0.0", "swaggerVersion": "1.2", "basePath": "https://financialdocument-e2e-qydc.platform.intuit.net/v1", "resourcePath": "/documents", "apis": [
+    {
+        "path": "/documents/{documentId}",
+        "operations": [
+            {
+                "method": "GET",
+                "summary": "Get a document from store",
+                "notes": "Fetches a document from the store for the specified documentId.",
+                "type": "Document",
+                "nickname": "get",
+                "produces": ["application/json", "application/xml"],
+                "consumes": ["application/json", "application/xml"],
+                "parameters": [
+                    {
+                        "name": "documentId",
+                        "description": "Id of the document to be fetched",
+                        "required": true,
+                        "allowMultiple": false,
+                        "type": "string",
+                        "paramType": "path"
+                    },
+                    {
+                        "name": "Authorization",
+                        "defaultValue": "Intuit_IAM_Authentication intuit_token_type=IAM-Ticket,intuit_token={replace_with_ticket_from_sign_in},intuit_userid={replace_with_userid_from_sign_in},intuit_appid=Intuit.platform.fdp.docservice.test,intuit_app_secret=F3MVISrnOmHsz7Y1Fzwvb7",
+                        "required": false,
+                        "allowMultiple": false,
+                        "type": "string",
+                        "paramType": "header"
+                    }
+                ],
+                "responseMessages": [
+                    {
+                        "code": 404,
+                        "message": "Not Found"
+                    },
+                    {
+                        "code": 500,
+                        "message": "Server error"
+                    },
+                    {
+                        "code": 400,
+                        "message": "Bad request, invalid inputs"
+                    },
+                    {
+                        "code": 401,
+                        "message": "Authorization failed"
+                    }
+                ]
+            },
+            {
+                "method": "DELETE",
+                "summary": "Delete a document from a store",
+                "notes": "Conditional delete using Last-modified and If-UnModified-Since headers  ",
+                "type": "void",
+                "nickname": "delete",
+                "produces": ["*/*"],
+                "parameters": [
+                    {
+                        "name": "documentId",
+                        "description": "Id of the document to be deleted",
+                        "required": true,
+                        "allowMultiple": false,
+                        "type": "string",
+                        "paramType": "path"
+                    },
+                    {
+                        "name": "If-Unmodified-Since",
+                        "required": false,
+                        "allowMultiple": false,
+                        "type": "string",
+                        "format": "date-time",
+                        "paramType": "header"
+                    },
+                    {
+                        "name": "Authorization",
+                        "defaultValue": "Intuit_IAM_Authentication intuit_token_type=IAM-Ticket,intuit_token={replace_with_ticket_from_sign_in},intuit_userid={replace_with_userid_from_sign_in},intuit_appid=Intuit.platform.fdp.docservice.test,intuit_app_secret=F3MVISrnOmHsz7Y1Fzwvb7",
+                        "required": false,
+                        "allowMultiple": false,
+                        "type": "string",
+                        "paramType": "header"
+                    }
+                ],
+                "responseMessages": [
+                    {
+                        "code": 400,
+                        "message": "Invalid input"
+                    },
+                    {
+                        "code": 500,
+                        "message": "Server error"
+                    },
+                    {
+                        "code": 401,
+                        "message": "Authorization failed"
+                    },
+                    {
+                        "code": 412,
+                        "message": "Precondition Failed"
+                    },
+                    {
+                        "code": 428,
+                        "message": "Precondition required"
+                    }
+                ]
+            },
+            {
+                "method": "PUT",
+                "summary": "Update a document meta data in the store",
+                "notes": "Conditional PUT using Last-modified and If-UnModified-Since headers",
+                "type": "Document",
+                "nickname": "update",
+                "produces": ["application/json", "application/xml"],
+                "consumes": ["application/json", "application/xml"],
+                "parameters": [
+                    {
+                        "name": "documentId",
+                        "description": "Id of the document to be updated",
+                        "required": true,
+                        "allowMultiple": false,
+                        "type": "string",
+                        "paramType": "path"
+                    },
+                    {
+                        "name": "body",
+                        "description": "Document to be stored",
+                        "required": true,
+                        "allowMultiple": false,
+                        "type": "Document",
+                        "paramType": "body"
+                    },
+                    {
+                        "name": "If-Unmodified-Since",
+                        "required": false,
+                        "allowMultiple": false,
+                        "type": "string",
+                        "format": "date-time",
+                        "paramType": "header"
+                    },
+                    {
+                        "name": "Authorization",
+                        "defaultValue": "Intuit_IAM_Authentication intuit_token_type=IAM-Ticket,intuit_token={replace_with_ticket_from_sign_in},intuit_userid={replace_with_userid_from_sign_in},intuit_appid=Intuit.platform.fdp.docservice.test,intuit_app_secret=F3MVISrnOmHsz7Y1Fzwvb7",
+                        "required": false,
+                        "allowMultiple": false,
+                        "type": "string",
+                        "paramType": "header"
+                    }
+                ],
+                "responseMessages": [
+                    {
+                        "code": 404,
+                        "message": "Not Found"
+                    },
+                    {
+                        "code": 500,
+                        "message": "Server error"
+                    },
+                    {
+                        "code": 401,
+                        "message": "Authorization failed"
+                    },
+                    {
+                        "code": 412,
+                        "message": "Precondition Failed"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "path": "/documents",
+        "operations": [
+            {
+                "method": "POST",
+                "summary": "Add a document to store",
+                "notes": "Adds a document to the store. The Document object passed should only contain DocumentAttributes. Do not pass SystemAttributes or DocumentFragments. SystemAttributes are created by Document Service, and fragments can be created through update calls. The document can be referred to by the documentId returned in the Location header of the response.",
+                "type": "void",
+                "nickname": "create",
+                "produces": ["application/json", "application/xml"],
+                "consumes": ["application/json", "application/xml"],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "description": "Details of the document to be stored. Accepts XML or JSON.",
+                        "required": true,
+                        "allowMultiple": false,
+                        "type": "Document",
+                        "paramType": "body"
+                    },
+                    {
+                        "name": "Authorization",
+                        "defaultValue": "Intuit_IAM_Authentication intuit_token_type=IAM-Ticket,intuit_token={replace_with_ticket_from_sign_in},intuit_userid={replace_with_userid_from_sign_in},intuit_appid=Intuit.platform.fdp.docservice.test,intuit_app_secret=F3MVISrnOmHsz7Y1Fzwvb7",
+                        "required": false,
+                        "allowMultiple": false,
+                        "type": "string",
+                        "paramType": "header"
+                    }
+                ],
+                "responseMessages": [
+                    {
+                        "code": 400,
+                        "message": "Invalid input"
+                    },
+                    {
+                        "code": 500,
+                        "message": "Server error"
+                    },
+                    {
+                        "code": 401,
+                        "message": "Authorization failed"
+                    }
+                ]
+            },
+            {
+                "method": "GET",
+                "summary": "List documents associated wit this User",
+                "notes": "User Context + query param",
+                "type": "DocumentsPage",
+                "nickname": "listDocuments",
+                "produces": ["application/json", "application/xml"],
+                "parameters": [
+                    {
+                        "name": "offset",
+                        "defaultValue": "0",
+                        "required": false,
+                        "allowMultiple": false,
+                        "type": "integer",
+                        "format": "int32",
+                        "paramType": "query"
+                    },
+                    {
+                        "name": "limit",
+                        "defaultValue": "25",
+                        "required": false,
+                        "allowMultiple": false,
+                        "type": "integer",
+                        "format": "int32",
+                        "paramType": "query"
+                    },
+                    {
+                        "name": "Authorization",
+                        "defaultValue": "Intuit_IAM_Authentication intuit_token_type=IAM-Ticket,intuit_token={replace_with_ticket_from_sign_in},intuit_userid={replace_with_userid_from_sign_in},intuit_appid=Intuit.platform.fdp.docservice.test,intuit_app_secret=F3MVISrnOmHsz7Y1Fzwvb7",
+                        "required": false,
+                        "allowMultiple": false,
+                        "type": "string",
+                        "paramType": "header"
+                    }
+                ],
+                "responseMessages": [
+                    {
+                        "code": 404,
+                        "message": "Not Found"
+                    },
+                    {
+                        "code": 500,
+                        "message": "Server error"
+                    },
+                    {
+                        "code": 401,
+                        "message": "Authorization failed"
+                    }
+                ]
+            },
+            {
+                "method": "POST",
+                "summary": "Creates a document and  attaches the  fragment at index 1",
+                "notes": "Creates a document and  attaches the  fragment at index 1. It supports only two parts in Multipart Form data. First part should be the document meta data. second part should be the fragment.Will return the location of the Document created in Location Header.",
+                "type": "void",
+                "nickname": "createDocumentWithFragment",
+                "produces": ["application/json", "application/xml", "*/*"],
+                "consumes": ["multipart/related"],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "required": false,
+                        "allowMultiple": false,
+                        "type": "MultiPart",
+                        "paramType": "body",
+                        "paramAccess": "internal"
+                    },
+                    {
+                        "name": "Authorization",
+                        "defaultValue": "Intuit_IAM_Authentication intuit_token_type=IAM-Ticket,intuit_token={replace_with_ticket_from_sign_in},intuit_userid={replace_with_userid_from_sign_in},intuit_appid=Intuit.platform.fdp.docservice.test,intuit_app_secret=F3MVISrnOmHsz7Y1Fzwvb7",
+                        "required": false,
+                        "allowMultiple": false,
+                        "type": "string",
+                        "paramType": "header"
+                    },
+                    {
+                        "name": "multiPart",
+                        "required": false,
+                        "allowMultiple": false,
+                        "type": "Document",
+                        "paramType": "body"
+                    },
+                    {
+                        "name": "multiPart",
+                        "required": false,
+                        "allowMultiple": false,
+                        "type": "file",
+                        "paramType": "body"
+                    }
+                ],
+                "responseMessages": [
+                    {
+                        "code": 400,
+                        "message": "Invalid input"
+                    },
+                    {
+                        "code": 500,
+                        "message": "Server error"
+                    },
+                    {
+                        "code": 401,
+                        "message": "Authorization failed"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "path": "/documents/{documentId}/documentFragments/{documentFragmentIndex}/thumbnails",
+        "operations": [
+            {
+                "method": "GET",
+                "summary": "Get a thumbnail for a document fragment.",
+                "notes": "Returns the thumbnail of the specified size for a document fragment of a document.",
+                "type": "ThumbnailEntity",
+                "nickname": "getThumbnail",
+                "produces": ["*/*"],
+                "parameters": [
+                    {
+                        "name": "documentId",
+                        "description": "Id of the document",
+                        "required": true,
+                        "allowMultiple": false,
+                        "type": "string",
+                        "paramType": "path"
+                    },
+                    {
+                        "name": "documentFragmentIndex",
+                        "description": "Index of the documentFragment whose thumbnail is to be generated",
+                        "required": true,
+                        "allowMultiple": false,
+                        "type": "string",
+                        "paramType": "path"
+                    },
+                    {
+                        "name": "type",
+                        "description": "Type of thumbnail required",
+                        "required": false,
+                        "allowMultiple": false,
+                        "type": "string",
+                        "paramType": "query"
+                    },
+                    {
+                        "name": "Authorization",
+                        "defaultValue": "Intuit_IAM_Authentication intuit_token_type=IAM-Ticket,intuit_token={replace_with_ticket_from_sign_in},intuit_userid={replace_with_userid_from_sign_in},intuit_appid=Intuit.platform.fdp.docservice.test,intuit_app_secret=F3MVISrnOmHsz7Y1Fzwvb7",
+                        "required": false,
+                        "allowMultiple": false,
+                        "type": "string",
+                        "paramType": "header"
+                    }
+                ],
+                "responseMessages": [
+                    {
+                        "code": 404,
+                        "message": "Not Found"
+                    },
+                    {
+                        "code": 500,
+                        "message": "Server error"
+                    },
+                    {
+                        "code": 401,
+                        "message": "Authorization failed"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "path": "/documents/{documentId}/documentFragments/{documentFragmentIndex}",
+        "operations": [
+            {
+                "method": "GET",
+                "summary": "Get a document fragment for the document",
+                "notes": "Returns the document fragment for the given document id at the specified index",
+                "type": "DocumentFragment",
+                "nickname": "getDocumentFragment",
+                "produces": ["*/*"],
+                "parameters": [
+                    {
+                        "name": "documentId",
+                        "description": "Id of the document",
+                        "required": true,
+                        "allowMultiple": false,
+                        "type": "string",
+                        "paramType": "path"
+                    },
+                    {
+                        "name": "documentFragmentIndex",
+                        "description": "Index of the document fragment to be fetched",
+                        "required": true,
+                        "allowMultiple": false,
+                        "type": "string",
+                        "paramType": "path"
+                    },
+                    {
+                        "name": "fileName",
+                        "description": "Name of the file to save as",
+                        "required": false,
+                        "allowMultiple": false,
+                        "type": "string",
+                        "paramType": "query"
+                    },
+                    {
+                        "name": "Authorization",
+                        "defaultValue": "Intuit_IAM_Authentication intuit_token_type=IAM-Ticket,intuit_token={replace_with_ticket_from_sign_in},intuit_userid={replace_with_userid_from_sign_in},intuit_appid=Intuit.platform.fdp.docservice.test,intuit_app_secret=F3MVISrnOmHsz7Y1Fzwvb7",
+                        "required": false,
+                        "allowMultiple": false,
+                        "type": "string",
+                        "paramType": "header"
+                    }
+                ],
+                "responseMessages": [
+                    {
+                        "code": 404,
+                        "message": "Not Found"
+                    },
+                    {
+                        "code": 500,
+                        "message": "Server error"
+                    },
+                    {
+                        "code": 401,
+                        "message": "Authorization failed"
+                    }
+                ]
+            },
+            {
+                "method": "DELETE",
+                "summary": "Remove documentFragment from the document",
+                "notes": "Conditional delete using ETag and If-Matches headers  ",
+                "type": "void",
+                "nickname": "removeDocumentFragment",
+                "produces": ["*/*"],
+                "parameters": [
+                    {
+                        "name": "documentId",
+                        "description": "Id of the document",
+                        "required": true,
+                        "allowMultiple": false,
+                        "type": "string",
+                        "paramType": "path"
+                    },
+                    {
+                        "name": "documentFragmentIndex",
+                        "description": "Index of the documentFragment to be removed",
+                        "required": true,
+                        "allowMultiple": false,
+                        "type": "string",
+                        "paramType": "path"
+                    },
+                    {
+                        "name": "Authorization",
+                        "defaultValue": "Intuit_IAM_Authentication intuit_token_type=IAM-Ticket,intuit_token={replace_with_ticket_from_sign_in},intuit_userid={replace_with_userid_from_sign_in},intuit_appid=Intuit.platform.fdp.docservice.test,intuit_app_secret=F3MVISrnOmHsz7Y1Fzwvb7",
+                        "required": false,
+                        "allowMultiple": false,
+                        "type": "string",
+                        "paramType": "header"
+                    }
+                ],
+                "responseMessages": [
+                    {
+                        "code": 400,
+                        "message": "Invalid input"
+                    },
+                    {
+                        "code": 500,
+                        "message": "Server error"
+                    },
+                    {
+                        "code": 401,
+                        "message": "Authorization failed"
+                    },
+                    {
+                        "code": 412,
+                        "message": "Precondition Failed"
+                    },
+                    {
+                        "code": 428,
+                        "message": "Precondition required"
+                    }
+                ]
+            },
+            {
+                "method": "PUT",
+                "summary": "Add a document fragment to the document",
+                "notes": "Adds a document fragment at the specified index to the document. Will perform a conditional update of document fragment  if a document fragment already exists at the given index using ETAG and IF-MATCHES headers.",
+                "type": "void",
+                "nickname": "addDocumentFragment",
+                "produces": ["application/json", "application/xml", "*/*"],
+                "parameters": [
+                    {
+                        "name": "documentId",
+                        "description": "Id of the document",
+                        "required": true,
+                        "allowMultiple": false,
+                        "type": "string",
+                        "paramType": "path"
+                    },
+                    {
+                        "name": "documentFragmentIndex",
+                        "description": "Index of the documentFragment to be stored",
+                        "required": true,
+                        "allowMultiple": false,
+                        "type": "string",
+                        "paramType": "path"
+                    },
+                    {
+                        "name": "body",
+                        "description": "DocumentFragment to be stored",
+                        "required": true,
+                        "allowMultiple": false,
+                        "type": "file",
+                        "paramType": "body"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "required": true,
+                        "allowMultiple": false,
+                        "type": "string",
+                        "paramType": "header"
+                    },
+                    {
+                        "name": "Authorization",
+                        "defaultValue": "Intuit_IAM_Authentication intuit_token_type=IAM-Ticket,intuit_token={replace_with_ticket_from_sign_in},intuit_userid={replace_with_userid_from_sign_in},intuit_appid=Intuit.platform.fdp.docservice.test,intuit_app_secret=F3MVISrnOmHsz7Y1Fzwvb7",
+                        "required": false,
+                        "allowMultiple": false,
+                        "type": "string",
+                        "paramType": "header"
+                    }
+                ],
+                "responseMessages": [
+                    {
+                        "code": 400,
+                        "message": "Invalid input"
+                    },
+                    {
+                        "code": 500,
+                        "message": "Server error"
+                    },
+                    {
+                        "code": 401,
+                        "message": "Authorization failed"
+                    },
+                    {
+                        "code": 412,
+                        "message": "Precondition Failed"
+                    },
+                    {
+                        "code": 428,
+                        "message": "Precondition required"
+                    },
+                    {
+                        "code": 404,
+                        "message": "Document id not found"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "path": "/documents/{documentId}/externalAssociations/{externalAssociationUrn}",
+        "operations": [
+            {
+                "method": "PUT",
+                "summary": "Add externalAssociation to the document",
+                "notes": " ",
+                "type": "void",
+                "nickname": "addExternalAssociation",
+                "produces": ["application/json", "application/xml"],
+                "parameters": [
+                    {
+                        "name": "documentId",
+                        "description": "Id of the document",
+                        "required": true,
+                        "allowMultiple": false,
+                        "type": "string",
+                        "paramType": "path"
+                    },
+                    {
+                        "name": "externalAssociationUrn",
+                        "description": "URN of the externalAssociation",
+                        "required": true,
+                        "allowMultiple": false,
+                        "type": "string",
+                        "paramType": "path"
+                    },
+                    {
+                        "name": "Authorization",
+                        "defaultValue": "Intuit_IAM_Authentication intuit_token_type=IAM-Ticket,intuit_token={replace_with_ticket_from_sign_in},intuit_userid={replace_with_userid_from_sign_in},intuit_appid=Intuit.platform.fdp.docservice.test,intuit_app_secret=F3MVISrnOmHsz7Y1Fzwvb7",
+                        "required": false,
+                        "allowMultiple": false,
+                        "type": "string",
+                        "paramType": "header"
+                    }
+                ],
+                "responseMessages": [
+                    {
+                        "code": 400,
+                        "message": "Invalid input"
+                    },
+                    {
+                        "code": 500,
+                        "message": "Server error"
+                    },
+                    {
+                        "code": 401,
+                        "message": "Authorization failed"
+                    }
+                ]
+            },
+            {
+                "method": "DELETE",
+                "summary": "Dis-associate external Association from the document",
+                "notes": "Conditional delete using ?",
+                "type": "void",
+                "nickname": "removeExternalAssociation",
+                "produces": ["application/json", "application/xml"],
+                "parameters": [
+                    {
+                        "name": "documentId",
+                        "description": "Id of the document",
+                        "required": true,
+                        "allowMultiple": false,
+                        "type": "string",
+                        "paramType": "path"
+                    },
+                    {
+                        "name": "externalAssociationUrn",
+                        "description": "URN of the externalAssociation",
+                        "required": true,
+                        "allowMultiple": false,
+                        "type": "string",
+                        "paramType": "path"
+                    },
+                    {
+                        "name": "If-Unmodified-Since",
+                        "required": false,
+                        "allowMultiple": false,
+                        "type": "string",
+                        "format": "date-time",
+                        "paramType": "header"
+                    },
+                    {
+                        "name": "Authorization",
+                        "defaultValue": "Intuit_IAM_Authentication intuit_token_type=IAM-Ticket,intuit_token={replace_with_ticket_from_sign_in},intuit_userid={replace_with_userid_from_sign_in},intuit_appid=Intuit.platform.fdp.docservice.test,intuit_app_secret=F3MVISrnOmHsz7Y1Fzwvb7",
+                        "required": false,
+                        "allowMultiple": false,
+                        "type": "string",
+                        "paramType": "header"
+                    }
+                ],
+                "responseMessages": [
+                    {
+                        "code": 400,
+                        "message": "Invalid input"
+                    },
+                    {
+                        "code": 500,
+                        "message": "Server error"
+                    },
+                    {
+                        "code": 401,
+                        "message": "Authorization failed"
+                    },
+                    {
+                        "code": 412,
+                        "message": "Precondition Failed"
+                    },
+                    {
+                        "code": 428,
+                        "message": "Precondition required"
+                    }
+                ]
+            }
+        ]
+    }
+], "models": {
+    "ThumbnailEntity": {
+        "id": "ThumbnailEntity",
+        "required": ["type", "content", "contentType", "contentBytes"],
+        "properties": {
+            "type": {
+                "type": "string"
+            },
+            "content": {
+                "type": "string"
+            },
+            "contentType": {
+                "type": "string"
+            },
+            "contentBytes": {
+                "type": "array",
+                "items": {
+                    "type": "byte"
+                }
+            },
+            "md5Hash": {
+                "type": "string"
+            },
+            "selflink": {
+                "type": "string"
+            }
+        }
+    },
+    "Location": {
+        "id": "Location",
+        "required": ["lat", "lng"],
+        "properties": {
+            "address": {
+                "type": "string"
+            },
+            "lat": {
+                "type": "string"
+            },
+            "lng": {
+                "type": "string"
+            }
+        }
+    },
+    "SystemAttributes": {
+        "id": "SystemAttributes",
+        "properties": {
+            "id": {
+                "type": "string"
+            },
+            "owner": {
+                "$ref": "Owner"
+            },
+            "version": {
+                "type": "string"
+            },
+            "assetId": {
+                "type": "string"
+            },
+            "selfLink": {
+                "type": "string"
+            },
+            "modifyDate": {
+                "$ref": "XMLGregorianCalendar"
+            },
+            "documentFragmentLocators": {
+                "$ref": "DocumentFragmentLocators"
+            },
+            "createDate": {
+                "$ref": "XMLGregorianCalendar"
+            }
+        }
+    },
+    "ThumbnailLocator": {
+        "id": "ThumbnailLocator",
+        "required": ["type", "locator"],
+        "properties": {
+            "type": {
+                "type": "string"
+            },
+            "locator": {
+                "type": "string"
+            }
+        }
+    },
+    "MultiPart": {
+        "id": "MultiPart",
+        "properties": {
+            "entity": {
+                "$ref": "Object"
+            },
+            "bodyParts": {
+                "type": "array",
+                "items": {
+                    "$ref": "BodyPart"
+                }
+            },
+            "parent": {
+                "$ref": "MultiPart"
+            },
+            "providers": {
+                "$ref": "Providers"
+            },
+            "headers": {
+                "$ref": "javax.ws.rs.core.MultivaluedMap<java.lang.String, java.lang.String>"
+            },
+            "contentDisposition": {
+                "$ref": "ContentDisposition"
+            },
+            "mediaType": {
+                "$ref": "MediaType"
+            },
+            "parameterizedHeaders": {
+                "$ref": "javax.ws.rs.core.MultivaluedMap<java.lang.String, com.sun.jersey.core.header.ParameterizedHeader>"
+            }
+        }
+    },
+    "DocumentFragment": {
+        "id": "DocumentFragment",
+        "required": ["content"],
+        "properties": {
+            "size": {
+                "type": "integer",
+                "format": "int32"
+            },
+            "content": {
+                "type": "string"
+            },
+            "index": {
+                "type": "integer",
+                "format": "int32"
+            },
+            "md5Hash": {
+                "type": "string"
+            },
+            "exifInfo": {
+                "type": "string"
+            },
+            "selfLink": {
+                "type": "string"
+            }
+        }
+    },
+    "ReceiptMetadata": {
+        "id": "ReceiptMetadata",
+        "properties": {
+            "total": {
+                "type": "string"
+            },
+            "currency": {
+                "type": "string"
+            },
+            "vendor": {
+                "type": "string"
+            },
+            "isAttached": {
+                "type": "boolean"
+            }
+        }
+    },
+    "DocumentFragments": {
+        "id": "DocumentFragments",
+        "required": ["contentType"],
+        "properties": {
+            "contentType": {
+                "type": "string"
+            },
+            "fragments": {
+                "type": "array",
+                "items": {
+                    "$ref": "DocumentFragment"
+                }
+            }
+        }
+    },
+    "BigInteger": {
+        "id": "BigInteger",
+        "properties": {
+            "bitCount": {
+                "type": "integer",
+                "format": "int32"
+            },
+            "signum": {
+                "type": "integer",
+                "format": "int32"
+            },
+            "bitLength": {
+                "type": "integer",
+                "format": "int32"
+            },
+            "lowestSetBit": {
+                "type": "integer",
+                "format": "int32"
+            }
+        }
+    },
+    "DocumentFragmentLocator": {
+        "id": "DocumentFragmentLocator",
+        "properties": {
+            "size": {
+                "type": "integer",
+                "format": "int32"
+            },
+            "index": {
+                "type": "integer",
+                "format": "int32"
+            },
+            "thumbnailLocators": {
+                "type": "array",
+                "items": {
+                    "$ref": "ThumbnailLocator"
+                }
+            },
+            "locator": {
+                "type": "string"
+            },
+            "thumbnailPresent": {
+                "type": "boolean"
+            },
+            "thumbnailContentType": {
+                "type": "string"
+            }
+        }
+    },
+    "DocumentFragmentLocators": {
+        "id": "DocumentFragmentLocators",
+        "required": ["contentType"],
+        "properties": {
+            "contentType": {
+                "type": "string"
+            },
+            "locators": {
+                "type": "array",
+                "items": {
+                    "$ref": "DocumentFragmentLocator"
+                }
+            }
+        }
+    },
+    "DocumentsPage": {
+        "id": "DocumentsPage",
+        "properties": {
+            "offset": {
+                "type": "integer",
+                "format": "int32"
+            },
+            "limit": {
+                "type": "integer",
+                "format": "int32"
+            },
+            "documents": {
+                "type": "array",
+                "items": {
+                    "$ref": "Document"
+                }
+            },
+            "totalDocuments": {
+                "type": "integer",
+                "format": "int32"
+            }
+        }
+    },
+    "MediaType": {
+        "id": "MediaType",
+        "properties": {
+            "type": {
+                "type": "string"
+            },
+            "parameters": {
+                "$ref": "Map[string,string]"
+            },
+            "subtype": {
+                "type": "string"
+            },
+            "wildcardType": {
+                "type": "boolean"
+            },
+            "wildcardSubtype": {
+                "type": "boolean"
+            }
+        }
+    },
+    "XMLGregorianCalendar": {
+        "id": "XMLGregorianCalendar",
+        "properties": {
+            "year": {
+                "type": "integer",
+                "format": "int32"
+            },
+            "month": {
+                "type": "integer",
+                "format": "int32"
+            },
+            "valid": {
+                "type": "boolean"
+            },
+            "day": {
+                "type": "integer",
+                "format": "int32"
+            },
+            "timezone": {
+                "type": "integer",
+                "format": "int32"
+            },
+            "eon": {
+                "$ref": "BigInteger"
+            },
+            "eonAndYear": {
+                "$ref": "BigInteger"
+            },
+            "hour": {
+                "type": "integer",
+                "format": "int32"
+            },
+            "minute": {
+                "type": "integer",
+                "format": "int32"
+            },
+            "second": {
+                "type": "integer",
+                "format": "int32"
+            },
+            "millisecond": {
+                "type": "integer",
+                "format": "int32"
+            },
+            "fractionalSecond": {
+                "$ref": "BigDecimal"
+            },
+            "xMLSchemaType": {
+                "$ref": "QName"
+            }
+        }
+    },
+    "QName": {
+        "id": "QName",
+        "properties": {
+            "prefix": {
+                "type": "string"
+            },
+            "namespaceURI": {
+                "type": "string"
+            },
+            "localPart": {
+                "type": "string"
+            }
+        }
+    },
+    "DocumentAttributes": {
+        "id": "DocumentAttributes",
+        "required": ["documentType"],
+        "properties": {
+            "name": {
+                "type": "string"
+            },
+            "annotation": {
+                "type": "string"
+            },
+            "location": {
+                "$ref": "Location"
+            },
+            "receiptMetadata": {
+                "$ref": "ReceiptMetadata"
+            },
+            "externalAssociations": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                }
+            },
+            "documentType": {
+                "type": "string"
+            }
+        }
+    },
+    "Date": {
+        "id": "Date",
+        "properties": {
+            "value": {
+                "type": "string",
+                "description": "Date in milliseconds since epoch"
+            }
+        }
+    },
+    "ContentDisposition": {
+        "id": "ContentDisposition",
+        "properties": {
+            "type": {
+                "type": "string"
+            },
+            "size": {
+                "type": "integer",
+                "format": "int64"
+            },
+            "fileName": {
+                "type": "string"
+            },
+            "parameters": {
+                "$ref": "Map[string,string]"
+            },
+            "creationDate": {
+                "type": "string",
+                "format": "date-time"
+            },
+            "modificationDate": {
+                "type": "string",
+                "format": "date-time"
+            },
+            "readDate": {
+                "type": "string",
+                "format": "date-time"
+            }
+        }
+    },
+    "Owner": {
+        "id": "Owner",
+        "required": ["namespaceId", "authId"],
+        "properties": {
+            "namespaceId": {
+                "type": "string"
+            },
+            "authId": {
+                "type": "string"
+            }
+        }
+    },
+    "BodyPart": {
+        "id": "BodyPart",
+        "properties": {
+            "parent": {
+                "$ref": "MultiPart"
+            },
+            "providers": {
+                "$ref": "Providers"
+            },
+            "headers": {
+                "$ref": "javax.ws.rs.core.MultivaluedMap<java.lang.String, java.lang.String>"
+            },
+            "entity": {
+                "$ref": "Object"
+            },
+            "contentDisposition": {
+                "$ref": "ContentDisposition"
+            },
+            "mediaType": {
+                "$ref": "MediaType"
+            },
+            "parameterizedHeaders": {
+                "$ref": "javax.ws.rs.core.MultivaluedMap<java.lang.String, com.sun.jersey.core.header.ParameterizedHeader>"
+            }
+        }
+    },
+    "Document": {
+        "id": "Document",
+        "properties": {
+            "documentAttributes": {
+                "$ref": "DocumentAttributes"
+            },
+            "systemAttributes": {
+                "$ref": "SystemAttributes"
+            },
+            "documentFragments": {
+                "$ref": "DocumentFragments"
+            }
+        }
+    },
+    "BigDecimal": {
+        "id": "BigDecimal",
+        "properties": {
+            "scale": {
+                "type": "integer",
+                "format": "int32"
+            },
+            "precision": {
+                "type": "integer",
+                "format": "int32"
+            }
+        }
+    }
+}}

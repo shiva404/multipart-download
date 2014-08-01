@@ -1,0 +1,57 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:beans="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+						   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+						   http://www.springframework.org/schema/util
+						   http://www.springframework.org/schema/util/spring-util-3.0.xsd
+						   http://www.springframework.org/schema/context
+						   http://www.springframework.org/schema/context/spring-context-3.0.xsd
+						   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+
+
+    <bean id="fileDownloadResource" class="com.intuit.ctof.trackMyExpense.resource.FileDownloadResource" />
+
+    <bean id="apiListingJson" class="com.intuit.ctof.trackMyExpense.resource.ApiListingJson" />
+
+
+    <bean id="jsonProvider" class="com.intuit.ctof.trackMyExpense.provider.JacksonJsonProvider" scope="singleton"/>
+
+    <bean id="swaggerConfig" class="com.wordnik.swagger.jaxrs.config.BeanConfig">
+        <property name="resourcePackage" value="com.intuit.ctof.trackMyExpense.resource"/>
+        <property name="version" value="1.0.0"/>
+        <property name="basePath" value="${swagger.basepath}"/>
+        <property name="title" value="Track my stuff"/>
+        <property name="description" value="Track my stuff"/>
+        <property name="contact" value="shiv@intuit.com"/>
+        <property name="scan" value="true"/>
+    </bean>
+
+    <bean id="resourceWriter" class="com.wordnik.swagger.jaxrs.listing.ResourceListingProvider" scope="singleton" />
+    <bean id="apiWriter" class="com.wordnik.swagger.jaxrs.listing.ApiDeclarationProvider" scope="singleton"/>
+
+
+    <bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE"/>
+        <property name="ignoreResourceNotFound" value="true"/>
+
+
+        <property name="locations">
+            <!--
+                   All properties files found in a specified file path and java classpaths will
+                   be loaded. APP_ENV are properties from the container
+                   JNDI or from the system	environment. The order of precedence in the list
+                   below is from last to first.
+               -->
+            <list>
+                <value>classpath:conf/props.properties</value>
+                <value>classpath:local-props.properties</value>
+            </list>
+        </property>
+
+    </bean>
+
+</beans>
